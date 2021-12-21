@@ -71,20 +71,14 @@ public class Commons {
 
     public static WebElement getElementByLocator(String field_name, String location, String type) {
         WebElement element = Driver.webDriver.findElement(By.xpath(ScenarioDataStore.get("context")+"//*[.=\""+field_name+"\"]"));
-        switch (location) {
-            case "below":
-                return Driver.webDriver.findElement(with(By.tagName(type)).below(element));
-            case "above":
-                return Driver.webDriver.findElement(with(By.tagName(type)).above(element));
-            case "left":
-                return Driver.webDriver.findElement(with(By.tagName(type)).toLeftOf(element));
-            case "right":
-                return Driver.webDriver.findElement(with(By.tagName(type)).toRightOf(element));
-            case "near":
-                return Driver.webDriver.findElement(with(By.tagName(type)).near(element,100));
-            default:
-                throw new IllegalStateException("Unexpected value: " + location);
-        }
+        return switch (location) {
+            case "below" -> Driver.webDriver.findElement(with(By.tagName(type)).below(element));
+            case "above" -> Driver.webDriver.findElement(with(By.tagName(type)).above(element));
+            case "left" -> Driver.webDriver.findElement(with(By.tagName(type)).toLeftOf(element));
+            case "right" -> Driver.webDriver.findElement(with(By.tagName(type)).toRightOf(element));
+            case "near" -> Driver.webDriver.findElement(with(By.tagName(type)).near(element, 100));
+            default -> throw new IllegalStateException("Unexpected value: " + location);
+        };
     }
 
     public static String removeBlankSpace(String text) {
